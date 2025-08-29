@@ -61,7 +61,7 @@ export default function TaskQueue() {
 
   const TaskItem = ({ task }: { task: Task }) => {
     return (
-      <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-200 bg-gray-50">
+      <div className="stat-card flex items-start gap-3 hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-200">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-900">{task.id}</span>

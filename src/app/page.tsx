@@ -1,4 +1,5 @@
 import TaskQueue from '@/components/TaskQueue';
+import PerformanceMetrics from '@/components/PerformanceMetrics';
 
 export default function Home() {
   return (
@@ -18,7 +19,8 @@ export default function Home() {
           </div>
         </div>
       </header>
-      <main className="max-w-7xl mx-auto px-4 mt-4">
+      <main className="max-w-7xl mx-auto px-4 mt-4 flex flex-col gap-4">
+        <PerformanceMetrics />
         <TaskQueue />
       </main>
     </div>
