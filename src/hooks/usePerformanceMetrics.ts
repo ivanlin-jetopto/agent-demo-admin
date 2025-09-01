@@ -2,15 +2,7 @@
 
 import { useState } from 'react';
 import { defaultMaterics } from '@/lib/mock-data/performance_matrics';
-
-interface PerformanceData {
-  sttLatency: number;
-  intentRecognition: number;
-  apiResponse: number;
-  ttsGeneration: number;
-  endToEndLatency: number;
-  successRate: number;
-}
+import { PerformanceData } from '@/lib/types/performance';
 
 export function usePerformanceMetrics() {
   // TODO: Implement real-time metrics updates

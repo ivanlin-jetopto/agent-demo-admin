@@ -5,17 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { FileText } from 'lucide-react';
 import { mockTasks } from '@/lib/mock-data/task';
-
-type TaskStatus = 'queued' | 'running' | 'complete' | 'failed';
-
-interface Task {
-  id: string;
-  type: string;
-  status: TaskStatus;
-  createdAt: string;
-  updatedAt: string;
-  resultLink?: string;
-}
+import { Task, TaskStatus } from '@/lib/types/task';
 
 const statusConfig = {
   queued: {

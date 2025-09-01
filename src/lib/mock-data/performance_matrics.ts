@@ -1,11 +1,4 @@
-interface PerformanceData {
-  sttLatency: number;
-  intentRecognition: number;
-  apiResponse: number;
-  ttsGeneration: number;
-  endToEndLatency: number;
-  successRate: number;
-}
+import { PerformanceData } from '@/lib/types/performance';
 
 export const defaultMaterics: PerformanceData = {
   sttLatency: 320,

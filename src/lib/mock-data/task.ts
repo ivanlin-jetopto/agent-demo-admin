@@ -1,13 +1,4 @@
-type TaskStatus = 'queued' | 'running' | 'complete' | 'failed';
-
-interface Task {
-  id: string;
-  type: string;
-  status: TaskStatus;
-  createdAt: string;
-  updatedAt: string;
-  resultLink?: string;
-}
+import { Task } from '@/lib/types/task';
 
 export const mockTasks: Task[] = [
   {
