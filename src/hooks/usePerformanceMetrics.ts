@@ -13,8 +13,12 @@ interface PerformanceData {
 }
 
 export function usePerformanceMetrics() {
+  // TODO: Implement real-time metrics updates
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [metrics, setMetrics] = useState<PerformanceData>(defaultMaterics);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isConnected, setIsConnected] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setIsLoading] = useState(true);
 
   return { metrics, isConnected, isLoading };

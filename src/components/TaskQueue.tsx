@@ -46,19 +46,6 @@ export default function TaskQueue() {
     failed: tasks.filter(t => t.status === 'failed'),
   };
 
-  const formatTime = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diff = now.getTime() - date.getTime();
-    const minutes = Math.floor(diff / 60000);
-
-    if (minutes < 1) return 'Just now';
-    if (minutes < 60) return `${minutes} min ago`;
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `${hours} hr ago`;
-    return date.toLocaleDateString();
-  };
-
   const TaskItem = ({ task }: { task: Task }) => {
     return (
       <div className="stat-card flex items-start gap-3 hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-200">
@@ -67,9 +54,7 @@ export default function TaskQueue() {
             <span className="text-sm font-medium text-gray-900">{task.id}</span>
             <span className="text-xs text-gray-500">• {task.type}</span>
           </div>
-          <p className="text-xs text-gray-500 mt-1">
-            {formatTime(task.updatedAt)}
-          </p>
+          <p className="text-xs text-gray-500 mt-1">{task.updatedAt}</p>
           {task.resultLink && (
             <a
               href={task.resultLink}
