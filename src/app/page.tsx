@@ -4,6 +4,7 @@ import { useState } from 'react';
 import TaskQueue from '@/components/TaskQueue';
 import AddTaskForm from '@/components/AddTaskForm';
 import { Task } from '@/lib/types/task';
+import { processVoiceTask } from '@/lib/api/voice-assistant';
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -34,53 +35,27 @@ export default function Home() {
     }, 500);
 
     try {
-      // Call the API to process the task
-      const response = await fetch('/api/voice-assistant', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'task',
-          taskId: taskId,
-          command: commandText,
-          userId: userId,
-        }),
+      // Call the API service to process the task
+      const result = await processVoiceTask({
+        taskId,
+        command: commandText,
+        userId,
       });
 
-      if (response.ok) {
-        const result = await response.json();
-
-        // Update task with the result from the API
-        setTasks(prev =>
-          prev.map(task =>
-            task.id === taskId
-              ? {
-                  ...task,
-                  status: result.status,
-                  duration: result.duration,
-                  result: result.result,
-                  timestamp: result.timestamp,
-                }
-              : task
-          )
-        );
-      } else {
-        // Handle error
-        const errorText = await response.text();
-        console.error('API Error:', errorText);
-        setTasks(prev =>
-          prev.map(task =>
-            task.id === taskId
-              ? {
-                  ...task,
-                  status: 'failed',
-                  result: `API error: ${response.status}`,
-                }
-              : task
-          )
-        );
-      }
+      // Update task with the result from the API
+      setTasks(prev =>
+        prev.map(task =>
+          task.id === taskId
+            ? {
+                ...task,
+                status: result.status,
+                duration: result.duration,
+                result: result.result,
+                timestamp: result.timestamp,
+              }
+            : task
+        )
+      );
     } catch (error) {
       console.error('Error calling voice assistant API:', error);
       setTasks(prev =>
