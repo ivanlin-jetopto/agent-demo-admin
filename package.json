@@ -2,13 +2,21 @@
   "name": "agent-demo-admin",
   "version": "0.1.0",
   "private": true,
+  "main": "lib/index.js",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev",
+    "build": "next build && tsc",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "format": "prettier --write .",
+    "genkit:ui": "genkit start -- npx tsx --watch src/genkit.ts",
+    "genkit:build": "tsc && genkit start -- node lib/index.js"
   },
   "dependencies": {
+    "@genkit-ai/express": "^1.18.0",
+    "@genkit-ai/firebase": "^1.18.0",
+    "@genkit-ai/flow": "^0.5.17",
+    "@genkit-ai/googleai": "^1.18.0",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-scroll-area": "^1.2.10",
     "@radix-ui/react-slot": "^1.2.3",
@@ -17,14 +25,17 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "dotenv": "^17.2.1",
     "firebase": "^12.2.1",
     "firebase-admin": "^13.5.0",
+    "genkit": "^1.18.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.542.0",
     "next": "15.5.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -37,6 +48,7 @@
     "eslint-config-next": "^15.5.2",
     "prettier": "^3.6.2",
     "tailwindcss": "^4",
+    "tsx": "^4.20.5",
     "tw-animate-css": "^1.3.7",
     "typescript": "^5"
   }

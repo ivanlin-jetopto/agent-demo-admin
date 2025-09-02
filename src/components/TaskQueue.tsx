@@ -1,22 +1,20 @@
 'use client';
 
-import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { FileText } from 'lucide-react';
-import { mockTasks } from '@/lib/mock-data/task';
-import { Task, TaskStatus } from '@/lib/types/task';
+import { Task } from '@/lib/types/task';
 
 const statusConfig = {
-  queued: {
+  pending: {
     label: 'Queued',
     badge: 'text-gray-700 bg-gray-100',
   },
-  running: {
+  processing: {
     label: 'Processing',
     badge: 'bg-blue-900 text-white',
   },
-  complete: {
+  completed: {
     label: 'Complete',
     badge: 'bg-green-900 text-white',
   },
@@ -26,53 +24,62 @@ const statusConfig = {
   },
 };
 
-export default function TaskQueue() {
-  const [tasks] = useState<Task[]>(mockTasks);
+interface TaskQueueProps {
+  tasks: Task[];
+}
 
+export default function TaskQueue({ tasks }: TaskQueueProps) {
   const tasksByStatus = {
-    queued: tasks.filter(t => t.status === 'queued'),
-    running: tasks.filter(t => t.status === 'running'),
-    complete: tasks.filter(t => t.status === 'complete'),
+    pending: tasks.filter(t => t.status === 'pending'),
+    processing: tasks.filter(t => t.status === 'processing'),
+    completed: tasks.filter(t => t.status === 'completed'),
     failed: tasks.filter(t => t.status === 'failed'),
   };
 
   const TaskItem = ({ task }: { task: Task }) => {
+    const formatTime = (timestamp: string) => {
+      return new Date(timestamp).toLocaleTimeString();
+    };
+
     return (
-      <div className="stat-card flex items-start gap-3 hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-200">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-900">{task.id}</span>
-            <span className="text-xs text-gray-500">• {task.type}</span>
-          </div>
-          <p className="text-xs text-gray-500 mt-1">{task.updatedAt}</p>
-          {task.resultLink && (
-            <a
-              href={task.resultLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-blue-600 hover:text-blue-800 mt-1 inline-block"
-            >
-              View result →
-            </a>
-          )}
+      <div className="stat-card flex flex-col gap-2 hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-200">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium text-gray-900">{task.id}</span>
         </div>
+        <p className="text-sm text-gray-700">{task.command}</p>
+        <div className="flex items-center gap-2 text-xs text-gray-500">
+          <span>{task.userId}</span>
+          <span>•</span>
+          <span>{formatTime(task.timestamp)}</span>
+        </div>
+        {task.duration && (
+          <p className="text-xs text-gray-500">Duration: {task.duration}ms</p>
+        )}
+        {task.result && (
+          <div className="mt-2 p-2 bg-green-50 rounded text-xs">
+            <span className="font-medium text-green-700">AI Response:</span>
+            <p className="text-green-600 mt-1">{task.result}</p>
+          </div>
+        )}
       </div>
     );
   };
 
   return (
     <Card className="p-4">
-      <CardHeader className="flex items-center gap-2 border-b border-gray-200">
-        <FileText className="w-6 h-6 text-gray-700" />
-        <CardTitle className="text-xl font-semibold text-gray-900">
-          Task Queue
-        </CardTitle>
+      <CardHeader className="flex flex-col gap-4 border-b border-gray-200">
+        <div className="flex items-center gap-2">
+          <FileText className="w-6 h-6 text-gray-700" />
+          <CardTitle className="text-xl font-semibold text-gray-900">
+            Voice Assistant Task Queue
+          </CardTitle>
+        </div>
       </CardHeader>
 
       <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-        {(['queued', 'running', 'complete', 'failed'] as TaskStatus[]).map(
+        {(['pending', 'processing', 'completed', 'failed'] as const).map(
           status => {
-            const tasks = tasksByStatus[status];
+            const statusTasks = tasksByStatus[status];
             const config = statusConfig[status];
 
             return (
@@ -85,16 +92,16 @@ export default function TaskQueue() {
                     <span
                       className={`inline-flex items-center justify-center min-w-[28px] h-7 px-2.5 rounded-full text-sm font-semibold ${config.badge}`}
                     >
-                      {tasks.length}
+                      {statusTasks.length}
                     </span>
                   </div>
                 </div>
 
                 <div className="pt-0">
-                  <ScrollArea className="h-[400px]">
-                    {tasks.length > 0 ? (
+                  <ScrollArea className="h-[calc(100vh-24rem)] min-h-[300px] max-h-[600px]">
+                    {statusTasks.length > 0 ? (
                       <div className="space-y-2 pr-3">
-                        {tasks.map(task => (
+                        {statusTasks.map(task => (
                           <TaskItem key={task.id} task={task} />
                         ))}
                       </div>
