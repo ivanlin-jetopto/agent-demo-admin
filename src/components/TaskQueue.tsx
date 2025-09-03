@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { FileText } from 'lucide-react';
 import { Task } from '@/lib/types/task';
+import { useRouter } from 'next/navigation';
 
 const statusConfig = {
   pending: {
@@ -35,16 +36,25 @@ export default function TaskQueue({ tasks }: TaskQueueProps) {
     completed: tasks.filter(t => t.status === 'completed'),
     failed: tasks.filter(t => t.status === 'failed'),
   };
+  const router = useRouter();
 
   const TaskItem = ({ task }: { task: Task }) => {
     const formatTime = (timestamp: string) => {
       return new Date(timestamp).toLocaleTimeString();
     };
+    const handleClick = () => {
+      router.push(`/task/${task.id}`);
+    };
 
     return (
       <div className="stat-card flex flex-col gap-2 hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-200">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-gray-900">{task.id}</span>
+          <span
+            className="text-sm font-medium text-gray-900 cursor-pointer"
+            onClick={handleClick}
+          >
+            {task.id}
+          </span>
         </div>
         <p className="text-sm text-gray-700">{task.command}</p>
         <div className="flex items-center gap-2 text-xs text-gray-500">
