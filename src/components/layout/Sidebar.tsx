@@ -22,7 +22,7 @@ const itemSize = 'h-4 w-4';
 const sidebarItems: SidebarItem[] = [
   {
     title: 'User Management',
-    href: '/login',
+    href: '/users',
     icon: <Users className={itemSize} />,
   },
   {
