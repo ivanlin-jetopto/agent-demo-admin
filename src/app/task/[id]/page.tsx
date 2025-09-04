@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, X, RotateCw } from 'lucide-react';
 import { taskFlow } from '@/lib/api/task';
 import { Timeline, TimelineItemData } from '@/components/ui/timeline';
 
@@ -46,6 +46,16 @@ export default function TaskPage() {
     }
   }, [id]);
 
+  const handleCancel = () => {
+    console.log('Cancelling task:', id);
+    // TODO: Implement cancel API call
+  };
+
+  const handleRestart = () => {
+    console.log('Restarting task:', id);
+    // TODO: Implement restart API call
+  };
+
   return (
     <main className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 pt-4">
@@ -62,7 +72,19 @@ export default function TaskPage() {
 
       <div className="flex justify-center px-4">
         <div className="w-full max-w-2xl">
-          <h1 className="text-xl font-semibold mb-8">任務詳情: {id}</h1>
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-xl font-semibold">任務詳情: {id}</h1>
+            <div className="flex gap-2">
+              <Button onClick={handleCancel} variant="outline" size="sm">
+                <X className="mr-2 h-4 w-4" />
+                取消
+              </Button>
+              <Button onClick={handleRestart} variant="default" size="sm">
+                <RotateCw className="mr-2 h-4 w-4" />
+                重新啟動
+              </Button>
+            </div>
+          </div>
           {timelineItems.length > 0 ? (
             <Timeline items={timelineItems} />
           ) : (
