@@ -3,7 +3,7 @@
 ### 1. User List View
 
 - User Table implementation with TanStack Query
-- API endpoint: GET /admin/v1/users
+- API endpoint: `GET /admin/v1/users`
 - Components: components/tables/users-table.tsx
 - Shows: User ID, Email, Last Active, Status, Actions
 - Actions dropdown menu includes:
