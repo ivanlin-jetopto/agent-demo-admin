@@ -78,7 +78,7 @@ export default function TaskQueue({ tasks }: TaskQueueProps) {
   return (
     <Card className="p-4">
       <CardHeader className="flex flex-col gap-4 border-b border-gray-200">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mb-2">
           <FileText className="w-6 h-6 text-gray-700" />
           <CardTitle className="text-xl font-semibold text-gray-900">
             Voice Assistant Task Queue
