@@ -5,6 +5,7 @@ import TaskQueue from '@/components/TaskQueue';
 import AddTaskForm from '@/components/AddTaskForm';
 import { Task } from '@/lib/types/task';
 import { processVoiceTask } from '@/lib/api/voice-assistant';
+import StatusMetrics from '@/components/Status';
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -74,6 +75,7 @@ export default function Home() {
 
   return (
     <main className="max-w-7xl mx-auto px-4 mt-4 flex flex-col gap-4">
+      <StatusMetrics />
       <AddTaskForm onSubmit={handleAddTask} />
       <TaskQueue tasks={tasks} />
     </main>
