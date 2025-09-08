@@ -60,7 +60,7 @@ export default function TaskPage() {
     <main className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 pt-4">
         <Button
-          onClick={() => router.push('/')}
+          onClick={() => router.push('/conversations')}
           variant="ghost"
           size="sm"
           className="w-fit"

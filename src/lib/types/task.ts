@@ -10,7 +10,7 @@
 export interface Task {
   id: string;
   command: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  status: 'processing' | 'completed' | 'failed';
   userId: string;
   timestamp: string;
   duration?: number;

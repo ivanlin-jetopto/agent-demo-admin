@@ -10,6 +10,7 @@ import {
   ChevronRight,
   LayoutDashboard,
   Users,
+  MessagesSquare,
 } from 'lucide-react';
 import {
   Tooltip,
@@ -36,6 +37,12 @@ const sidebarItems: SidebarItem[] = [
     title: '用戶管理',
     href: '/users',
     icon: <Users className={itemSize} />,
+  },
+
+  {
+    title: '對話管理',
+    href: '/conversations',
+    icon: <MessagesSquare className={itemSize} />,
   },
 ];
 

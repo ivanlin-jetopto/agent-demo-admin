@@ -7,10 +7,6 @@ import { Task } from '@/lib/types/task';
 import { useRouter } from 'next/navigation';
 
 const statusConfig = {
-  pending: {
-    label: 'Queued',
-    badge: 'text-gray-700 bg-gray-100',
-  },
   processing: {
     label: 'Processing',
     badge: 'bg-blue-900 text-white',
@@ -31,7 +27,6 @@ interface TaskQueueProps {
 
 export default function TaskQueue({ tasks }: TaskQueueProps) {
   const tasksByStatus = {
-    pending: tasks.filter(t => t.status === 'pending'),
     processing: tasks.filter(t => t.status === 'processing'),
     completed: tasks.filter(t => t.status === 'completed'),
     failed: tasks.filter(t => t.status === 'failed'),
@@ -40,7 +35,11 @@ export default function TaskQueue({ tasks }: TaskQueueProps) {
 
   const TaskItem = ({ task }: { task: Task }) => {
     const formatTime = (timestamp: string) => {
-      return new Date(timestamp).toLocaleTimeString();
+      const date = new Date(timestamp);
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      const seconds = date.getSeconds().toString().padStart(2, '0');
+      return `${hours}:${minutes}:${seconds}`;
     };
     const handleClick = () => {
       router.push(`/task/${task.id}`);
@@ -81,51 +80,49 @@ export default function TaskQueue({ tasks }: TaskQueueProps) {
         <div className="flex items-center gap-2 mb-2">
           <FileText className="w-6 h-6 text-gray-700" />
           <CardTitle className="text-xl font-semibold text-gray-900">
-            Voice Assistant Task Queue
+            即時對話狀態
           </CardTitle>
         </div>
       </CardHeader>
 
-      <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-        {(['pending', 'processing', 'completed', 'failed'] as const).map(
-          status => {
-            const statusTasks = tasksByStatus[status];
-            const config = statusConfig[status];
+      <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {(['processing', 'completed', 'failed'] as const).map(status => {
+          const statusTasks = tasksByStatus[status];
+          const config = statusConfig[status];
 
-            return (
-              <div key={status} className="flex-1">
-                <div className="pb-3 mb-4 border-b-2 border-gray-100">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-gray-800">
-                      {config.label}
-                    </h3>
-                    <span
-                      className={`inline-flex items-center justify-center min-w-[28px] h-7 px-2.5 rounded-full text-sm font-semibold ${config.badge}`}
-                    >
-                      {statusTasks.length}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="pt-0">
-                  <ScrollArea className="h-[calc(100vh-24rem)] min-h-[300px] max-h-[600px]">
-                    {statusTasks.length > 0 ? (
-                      <div className="space-y-2 pr-3">
-                        {statusTasks.map(task => (
-                          <TaskItem key={task.id} task={task} />
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-center py-8 text-gray-400 text-sm">
-                        No {config.label.toLowerCase()} tasks
-                      </div>
-                    )}
-                  </ScrollArea>
+          return (
+            <div key={status} className="flex-1">
+              <div className="pb-3 mb-4 border-b-2 border-gray-100">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-gray-800">
+                    {config.label}
+                  </h3>
+                  <span
+                    className={`inline-flex items-center justify-center min-w-[28px] h-7 px-2.5 rounded-full text-sm font-semibold ${config.badge}`}
+                  >
+                    {statusTasks.length}
+                  </span>
                 </div>
               </div>
-            );
-          }
-        )}
+
+              <div className="pt-0">
+                <ScrollArea className="h-[calc(100vh-24rem)] min-h-[300px] max-h-[600px]">
+                  {statusTasks.length > 0 ? (
+                    <div className="space-y-2 pr-3">
+                      {statusTasks.map(task => (
+                        <TaskItem key={task.id} task={task} />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-gray-400 text-sm">
+                      No {config.label.toLowerCase()} tasks
+                    </div>
+                  )}
+                </ScrollArea>
+              </div>
+            </div>
+          );
+        })}
       </CardContent>
     </Card>
   );
