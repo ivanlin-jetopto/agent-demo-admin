@@ -1,6 +1,13 @@
-export interface DashboardStatus {
+export interface UserActivityType {
   activeUsers: number;
+  newUsersToday: number;
+  weeklyActiveUsers: number;
+  averageSessionDuration: number;
+}
+
+export interface BusinessMetricType {
+  totalConversationsToday: number;
+  averageConversationTurns: number;
   apiCalls: number;
-  errorRate: number;
-  avgLatency: number;
+  taskCompletionRate: number;
 }

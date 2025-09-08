@@ -23,5 +23,5 @@ export async function taskFlow(
 
   //   return response.json();
 
-  return { flow: ['start', 'func call', 'func call', 'func call', 'end'] };
+  return { flow: ['start', 'The AI is processing', 'func call', 'func call'] };
 }

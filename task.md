@@ -32,10 +32,21 @@ Implementation:
 
 Data Structure:
 
-- activeUsers: number
-- apiCalls: number
-- errorRate: number
-- avgLatency: number
+- 用戶活躍度 (User Activity)
+  - 當前在線用戶數: `activeUsers: number`
+  - 今日新增用戶數: `newUsersToday: number`
+  - 7日活躍用戶數: `weeklyActiveUsers: number`
+  - 平均使用時長 (in minutes): `averageSessionDuration: number`
+- AI Agent 業務指標 (AI Agent Business Metrics)
+  - 今日對話總數: `totalConversationsToday: number`
+  - 平均對話輪數: `averageConversationTurns: number`
+  - Function Call 總次數: `apiCalls: number`
+  - 任務完成率 (percentage, 0-100): `taskCompletionRate: number`
+- 趨勢圖表
+  - 7日用戶活躍度趨勢圖
+  - 24小時對話量分布圖
+  - Function Call 使用趨勢
+  - 錯誤率變化曲線
 
 Component Location: `lib/hooks/useRealtimeStats.ts`
 
@@ -45,7 +56,8 @@ Firestore Structure:
 
 ```
 '/admin_dashboard/realtime_stats': {
-  systemHealth: 'healthy' | 'degraded' | 'down';lastUpdated: Timestamp;
+  systemHealth: 'healthy' | 'degraded' | 'down';
+  lastUpdated: Timestamp;
 }
 ```
 
@@ -64,9 +76,9 @@ Stats Cards:
 
 Cost Optimization:
 
-- "顯示每項操作成本"
-- "提供優化建議"
-- "設定使用量警示"
+- 顯示每項操作成本
+- 提供優化建議
+- 設定使用量警示
 
 API Endpoint: `GET /admin/v1/dashboard/stats`
 
@@ -82,16 +94,16 @@ Firestore Collection:
 
 Data Analysis Features:
 
-- "使用模式深度分析"
-- "Function Calling 成功率追蹤"
-- "地理熱點視覺化"
-- "自訂報表產生"
+- 使用模式深度分析
+- Function Calling 成功率追蹤
+- 地理熱點視覺化
+- 自訂報表產生
 
 Analytics Use Cases:
 
-- "分析師產生週/月報表"
-- "識別用戶使用模式"
-- "優化功能設計方向"
+- 分析師產生週/月報表
+- 識別用戶使用模式
+- 優化功能設計方向
 
 API Endpoints:
 
@@ -107,16 +119,13 @@ Data Sources:
 
 ### 6. Audit Logs
 
-Source: /Users/joana.chang/Documents/Projects/agent-demo-doc/02-產品規劃/i
-mpl-admin.md:516-523
-
 Firestore Structure:
 `'/admin_dashboard/audit_logs/{logId}': {id: string;adminId: string;action: string;target: string;timestamp: Timestamp;metadata: Record<string, any>;}`
 
 Security Requirements:
 
-- "完整審計日誌"
-- "完整操作追蹤"
+- 完整審計日誌
+- 完整操作追蹤
 
 ### 7. Conversation Monitoring (Supporting US1)
 
@@ -132,12 +141,51 @@ Historical Conversation Query:
 - API: `GET /admin/v1/conversations/history`
 - Data from PostgreSQL for long-term storage
 
+- 對話列表監控
+  - 即時對話狀態
+    - 進行中對話
+    - 已完成對話
+    - 錯誤/中斷對話
+  - 歷史對話查詢
+    - 時間範圍選擇
+    - 分頁瀏覽
+  - 多維度篩選
+    - 按用戶篩選
+    - 按時間篩選
+    - 按狀態篩選
+    - 按錯誤類型篩選
+- 對話詳情分析
+  - 完整對話內容
+    - 時間軸視圖
+    - 用戶訊息原文
+    - AI 回應內容
+    - 訊息時間戳記
+  - 性能分析
+    - Gemini API 回應時間
+    - Function Call 執行時間
+    - 後端處理總時長
+  - 錯誤診斷
+    - 錯誤類型
+    - 錯誤訊息
+    - 發生時間點
+    - 建議解決方案
+- Function Call 追蹤
+  - 調用詳情
+    - 功能名稱
+    - 調用參數
+    - 執行結果
+    - 調用時間
+  - 執行狀態
+    - 成功/失敗
+    - 錯誤原因
+    - 重試次數
+
 ### 8. Traffic Report Management (Supporting US2)
 
 Phase 2 Features:
 
-- "路況審核系統（US2）"
-- "內容審核工作流"
+- 路況審核系統（US2）
+- 內容審核工作流
 
 API Endpoints:
 
