@@ -7,7 +7,7 @@ import ErrorRateTrend from '@/components/ErrorRateTrend';
 
 export default function Home() {
   return (
-    <main className="max-w-7xl mx-auto px-4 mt-4 flex flex-col gap-4">
+    <main className="max-w-7xl mx-auto px-4 my-4 flex flex-col gap-4">
       <div className="flex flex-row gap-4 justify-around">
         {/* 用戶活躍度 */}
         <UserActivity />

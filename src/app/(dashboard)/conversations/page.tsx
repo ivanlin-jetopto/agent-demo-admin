@@ -66,8 +66,8 @@ export default function ConversationsPage() {
       const query = searchQuery.toLowerCase();
       const matchesCommand = task.command.toLowerCase().includes(query);
       const matchesUserId = task.userId.toLowerCase().includes(query);
-      const matchesResult = task.result?.toLowerCase().includes(query);
-      if (!matchesCommand && !matchesUserId && !matchesResult) {
+      const matchesTaskId = task.id?.toLowerCase().includes(query);
+      if (!matchesCommand && !matchesUserId && !matchesTaskId) {
         return false;
       }
     }
@@ -218,7 +218,7 @@ export default function ConversationsPage() {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input
-                  placeholder="搜尋指令內容或用戶ID..."
+                  placeholder="搜尋任務ID或用戶ID..."
                   value={searchQuery}
                   onChange={e => {
                     setSearchQuery(e.target.value);
