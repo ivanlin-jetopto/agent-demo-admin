@@ -7,7 +7,7 @@ import { ArrowLeft, X, RotateCw } from 'lucide-react';
 import { taskFlow } from '@/lib/api/task';
 import { Timeline, TimelineItemData } from '@/components/ui/timeline';
 import { ChatDialog, Message } from '@/components/chat-dialog';
-import { mockTasks } from '@/lib/mock-data/conversations';
+import { mockTasks } from '@/lib/mock-data/tasks';
 import { PerformanceAnalysis } from '@/components/performance-analysis';
 import { ErrorDiagnostics, ErrorDetail } from '@/components/error-diagnostics';
 import {
@@ -32,6 +32,9 @@ export default function TaskPage() {
   };
 
   useEffect(() => {
+    // Scroll to top when page loads
+    window.scrollTo(0, 0);
+
     // Load chat messages from mock data
     const task = mockTasks.find(t => t.id === id);
     if (task) {

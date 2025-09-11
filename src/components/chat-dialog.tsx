@@ -1,20 +1,26 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-
-export interface Message {
-  id: string;
-  content: string;
-  sender: 'user' | 'assistant';
-  timestamp?: string;
-}
+import { ConversationHistory } from '@/lib/types/conversation';
 
 interface ChatDialogProps {
-  messages: Message[];
+  messages: ConversationHistory[];
   className?: string;
 }
 
 export function ChatDialog({ messages, className }: ChatDialogProps) {
+  // Format timestamp for display
+  const formatTime = (isoString: string) => {
+    const date = new Date(isoString);
+    return date.toLocaleString('zh-TW', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
   return (
     <div className={cn('flex flex-col gap-3 p-6', className)}>
       {messages.map(message => (
@@ -44,7 +50,7 @@ export function ChatDialog({ messages, className }: ChatDialogProps) {
                 message.sender === 'user' ? 'ml-1' : 'mr-1'
               )}
             >
-              {message.timestamp}
+              {formatTime(message.timestamp)}
             </p>
           )}
         </div>
