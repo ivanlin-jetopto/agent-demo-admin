@@ -34,6 +34,17 @@ export function FunctionCallTracking({
 }: FunctionCallTrackingProps) {
   const [expandedCalls, setExpandedCalls] = useState<Set<string>>(new Set());
 
+  const formatTime = (d: string | Date) => {
+    const dateObj = typeof d === 'string' ? new Date(d) : d;
+    return dateObj.toLocaleString('zh-TW', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
   const toggleExpanded = (id: string) => {
     const newExpanded = new Set(expandedCalls);
     if (newExpanded.has(id)) {
@@ -120,7 +131,7 @@ export function FunctionCallTracking({
                     </td>
                     <td className="p-3">
                       <span className="text-xs text-muted-foreground">
-                        {call.timestamp}
+                        {formatTime(call.timestamp)}
                       </span>
                     </td>
                     <td className="p-3">

@@ -20,6 +20,17 @@ export function ErrorDiagnostics({
   errors = [],
   className,
 }: ErrorDiagnosticsProps) {
+  const formatTime = (d: string | Date) => {
+    const dateObj = typeof d === 'string' ? new Date(d) : d;
+    return dateObj.toLocaleString('zh-TW', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
   if (errors.length === 0) {
     return (
       <div className={cn('space-y-4', className)}>
@@ -60,7 +71,7 @@ export function ErrorDiagnostics({
                 </td>
                 <td className="p-3">
                   <span className="text-xs text-muted-foreground">
-                    {error.timestamp}
+                    {formatTime(error.timestamp)}
                   </span>
                 </td>
                 <td className="p-3">

@@ -40,39 +40,22 @@ export function TimelineItem({
   tags,
   isLast = false,
 }: TimelineItemProps) {
-  const formatDateTime = (d: string | Date) => {
+  const formatTime = (d: string | Date) => {
     const dateObj = typeof d === 'string' ? new Date(d) : d;
-
-    if (isNaN(dateObj.getTime())) {
-      return { date: '', time: typeof d === 'string' ? d : '' };
-    }
-
-    // Format date as "JUN 12" style
-    const month = dateObj
-      .toLocaleDateString('en-US', { month: 'short' })
-      .toUpperCase();
-    const day = dateObj.getDate();
-
-    // Format time as "HH:MM"
-    const hours = dateObj.getHours().toString().padStart(2, '0');
-    const minutes = dateObj.getMinutes().toString().padStart(2, '0');
-
-    return {
-      date: `${month} ${day}`,
-      time: `${hours}:${minutes}`,
-    };
+    return dateObj.toLocaleString('zh-TW', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
   };
-
-  const { date: dateDisplay, time: timeDisplay } = formatDateTime(date);
 
   return (
     <div className={cn('relative flex items-start gap-6')}>
       {/* Date and Time on the left */}
       <div className="flex flex-col items-end text-xs min-w-[100px] pt-1">
-        <div className="font-medium text-foreground/80 uppercase tracking-wide">
-          {dateDisplay}
-        </div>
-        <div className="text-muted-foreground mt-1">{timeDisplay}</div>
+        {formatTime(date)}
       </div>
 
       {/* Timeline line and dot */}
