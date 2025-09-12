@@ -3,4 +3,5 @@ export interface UserType {
   email: string;
   lastActive: string;
   status: 'active' | 'blocked';
+  createdAt: string;
 }

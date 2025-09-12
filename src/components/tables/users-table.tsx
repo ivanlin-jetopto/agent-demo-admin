@@ -39,12 +39,16 @@ import {
   User,
   Mail,
   Calendar,
+  Clock,
   MoreHorizontal,
   Search,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  ChevronUp,
+  ChevronDown,
+  ChevronsUpDown,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -80,6 +84,9 @@ export default function UsersTable() {
   const [globalFilter, setGlobalFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
+  const [createdAtDateRange, setCreatedAtDateRange] = useState<
+    DateRange | undefined
+  >(undefined);
 
   const handleBlock = (id: string) => {
     console.log('Blocking user:', id);
@@ -114,7 +121,7 @@ export default function UsersTable() {
       {
         accessorKey: 'id',
         meta: {
-          className: 'w-1/6',
+          className: 'w-[15%]',
         },
         header: () => (
           <div className="flex items-center gap-2">
@@ -129,7 +136,7 @@ export default function UsersTable() {
       {
         accessorKey: 'email',
         meta: {
-          className: 'w-2/6',
+          className: 'w-[25%]',
         },
         header: () => (
           <div className="flex items-center gap-2">
@@ -142,28 +149,84 @@ export default function UsersTable() {
         ),
       },
       {
+        accessorKey: 'createdAt',
+        meta: {
+          className: 'w-[15%]',
+        },
+        header: ({ column }) => (
+          <Button
+            variant="ghost"
+            className="-ml-4 h-auto p-2 hover:bg-transparent"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <Clock className="h-4 w-4 text-muted-foreground mr-2" />
+            <span>建立時間</span>
+            {column.getIsSorted() === 'asc' ? (
+              <ChevronUp className="ml-2 h-4 w-4" />
+            ) : column.getIsSorted() === 'desc' ? (
+              <ChevronDown className="ml-2 h-4 w-4" />
+            ) : (
+              <ChevronsUpDown className="ml-2 h-4 w-4 text-muted-foreground" />
+            )}
+          </Button>
+        ),
+        cell: ({ row }) => (
+          <span className="text-sm text-muted-foreground">
+            {formatDate(row.getValue('createdAt'))}
+          </span>
+        ),
+        enableSorting: true,
+      },
+      {
         accessorKey: 'lastActive',
         meta: {
-          className: 'w-1/6',
+          className: 'w-[15%]',
         },
-        header: () => (
-          <div className="flex items-center gap-2">
-            <Calendar className="text-muted-foreground" />
+        header: ({ column }) => (
+          <Button
+            variant="ghost"
+            className="-ml-4 h-auto p-2 hover:bg-transparent"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <Calendar className="h-4 w-4 text-muted-foreground mr-2" />
             <span>最後活動</span>
-          </div>
+            {column.getIsSorted() === 'asc' ? (
+              <ChevronUp className="ml-2 h-4 w-4" />
+            ) : column.getIsSorted() === 'desc' ? (
+              <ChevronDown className="ml-2 h-4 w-4" />
+            ) : (
+              <ChevronsUpDown className="ml-2 h-4 w-4 text-muted-foreground" />
+            )}
+          </Button>
         ),
         cell: ({ row }) => (
           <span className="text-sm text-muted-foreground">
             {formatDate(row.getValue('lastActive'))}
           </span>
         ),
+        enableSorting: true,
       },
       {
         accessorKey: 'status',
         meta: {
-          className: 'w-1/6',
+          className: 'w-[15%]',
         },
-        header: '狀態',
+        header: ({ column }) => (
+          <Button
+            variant="ghost"
+            className="-ml-4 h-auto p-2 hover:bg-transparent"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <span>狀態</span>
+            {column.getIsSorted() === 'asc' ? (
+              <ChevronUp className="ml-2 h-4 w-4" />
+            ) : column.getIsSorted() === 'desc' ? (
+              <ChevronDown className="ml-2 h-4 w-4" />
+            ) : (
+              <ChevronsUpDown className="ml-2 h-4 w-4 text-muted-foreground" />
+            )}
+          </Button>
+        ),
         cell: ({ row }) => {
           const status = row.getValue('status') as 'active' | 'blocked';
           return (
@@ -187,7 +250,7 @@ export default function UsersTable() {
       {
         id: 'actions',
         meta: {
-          className: 'w-1/6',
+          className: 'w-[15%]',
         },
         header: () => <div className="text-center">操作</div>,
         cell: ({ row }) => {
@@ -268,8 +331,24 @@ export default function UsersTable() {
       });
     }
 
+    // Apply date range filter for created at
+    if (createdAtDateRange?.from) {
+      filtered = filtered.filter(user => {
+        const createdDate = new Date(user.createdAt);
+        const fromDate = new Date(createdAtDateRange.from!);
+        fromDate.setHours(0, 0, 0, 0);
+
+        if (createdAtDateRange.to) {
+          const toDate = new Date(createdAtDateRange.to);
+          toDate.setHours(23, 59, 59, 999);
+          return createdDate >= fromDate && createdDate <= toDate;
+        }
+        return createdDate >= fromDate;
+      });
+    }
+
     return filtered;
-  }, [data, statusFilter, dateRange]);
+  }, [data, statusFilter, dateRange, createdAtDateRange]);
 
   const table = useReactTable({
     data: filteredData,
@@ -281,7 +360,7 @@ export default function UsersTable() {
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
-    globalFilterFn: (row, columnId, filterValue) => {
+    globalFilterFn: (row, _columnId, filterValue) => {
       const searchValue = filterValue.toLowerCase();
       const id = row.getValue('id') as string;
       const email = row.getValue('email') as string;
@@ -345,6 +424,41 @@ export default function UsersTable() {
                 variant="outline"
                 className={cn(
                   'w-[240px] justify-start text-left font-normal',
+                  !createdAtDateRange && 'text-muted-foreground'
+                )}
+                data-testid="created-date-filter"
+              >
+                <Clock className="mr-2 h-4 w-4" />
+                {createdAtDateRange?.from ? (
+                  createdAtDateRange.to ? (
+                    <>
+                      {format(createdAtDateRange.from, 'yyyy/MM/dd')} -{' '}
+                      {format(createdAtDateRange.to, 'yyyy/MM/dd')}
+                    </>
+                  ) : (
+                    format(createdAtDateRange.from, 'yyyy/MM/dd')
+                  )
+                ) : (
+                  <span>選擇建立日期範圍</span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <CalendarComponent
+                mode="range"
+                defaultMonth={createdAtDateRange?.from}
+                selected={createdAtDateRange}
+                onSelect={setCreatedAtDateRange}
+              />
+            </PopoverContent>
+          </Popover>
+
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  'w-[240px] justify-start text-left font-normal',
                   !dateRange && 'text-muted-foreground'
                 )}
                 data-testid="date-filter"
@@ -364,30 +478,34 @@ export default function UsersTable() {
                 )}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[21rem] p-0" align="start">
+            <PopoverContent className="w-auto p-0" align="start">
               <CalendarComponent
                 mode="range"
                 defaultMonth={dateRange?.from}
                 selected={dateRange}
                 onSelect={setDateRange}
-                className="rounded-lg border shadow-sm"
               />
             </PopoverContent>
           </Popover>
 
-          {(globalFilter || statusFilter !== 'all' || dateRange) && (
-            <Button
-              variant="ghost"
-              onClick={() => {
-                setGlobalFilter('');
-                setStatusFilter('all');
-                setDateRange(undefined);
-                table.getColumn('status')?.setFilterValue(undefined);
-              }}
-            >
-              清除篩選
-            </Button>
-          )}
+          <Button
+            disabled={
+              !globalFilter &&
+              statusFilter === 'all' &&
+              !dateRange &&
+              !createdAtDateRange
+            }
+            variant="default"
+            onClick={() => {
+              setGlobalFilter('');
+              setStatusFilter('all');
+              setDateRange(undefined);
+              setCreatedAtDateRange(undefined);
+              table.getColumn('status')?.setFilterValue(undefined);
+            }}
+          >
+            清除篩選
+          </Button>
         </div>
 
         <div className="text-sm text-muted-foreground">

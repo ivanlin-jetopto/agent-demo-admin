@@ -163,16 +163,17 @@ export function FunctionCallTracking({
                             </pre>
                           </div>
 
-                          {call.result !== undefined && call.result !== null && (
-                            <div>
-                              <div className="text-sm font-medium mb-2">
-                                執行結果:
+                          {call.result !== undefined &&
+                            call.result !== null && (
+                              <div>
+                                <div className="text-sm font-medium mb-2">
+                                  執行結果:
+                                </div>
+                                <pre className="text-xs bg-background p-3 rounded overflow-x-auto border">
+                                  {JSON.stringify(call.result, null, 2)}
+                                </pre>
                               </div>
-                              <pre className="text-xs bg-background p-3 rounded overflow-x-auto border">
-                                {JSON.stringify(call.result, null, 2)}
-                              </pre>
-                            </div>
-                          )}
+                            )}
 
                           {call.errorReason && (
                             <div>

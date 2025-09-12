@@ -140,7 +140,7 @@ export default function ConversationsTable() {
             <span>相關任務</span>
           </div>
         ),
-        cell: ({ row }) => {
+        cell: function Cell({ row }) {
           const [expanded, setExpanded] = useState(false);
           const tasks = row.getValue('tasks') as string[] | undefined;
           if (!tasks || tasks.length === 0) {
