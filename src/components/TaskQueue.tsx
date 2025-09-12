@@ -5,6 +5,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { FileText } from 'lucide-react';
 import { Task } from '@/lib/types/task';
 import { useRouter } from 'next/navigation';
+import { mockTasks } from '@/lib/mock-data/tasks';
 
 const statusConfig = {
   processing: {
@@ -21,11 +22,8 @@ const statusConfig = {
   },
 };
 
-interface TaskQueueProps {
-  tasks: Task[];
-}
-
-export default function TaskQueue({ tasks }: TaskQueueProps) {
+export default function TaskQueue() {
+  const tasks: Task[] = mockTasks;
   const tasksByStatus = {
     processing: tasks.filter(t => t.status === 'processing'),
     completed: tasks.filter(t => t.status === 'completed'),
@@ -80,7 +78,7 @@ export default function TaskQueue({ tasks }: TaskQueueProps) {
         <div className="flex items-center gap-2 mb-2">
           <FileText className="w-6 h-6 text-gray-700" />
           <CardTitle className="text-xl font-semibold text-gray-900">
-            即時對話狀態
+            即時任務狀態
           </CardTitle>
         </div>
       </CardHeader>

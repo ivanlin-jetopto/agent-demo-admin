@@ -4,6 +4,7 @@ import UserActivityTrend from '@/components/UserActivityTrend';
 import ConversationVolumeChart from '@/components/ConversationVolumeChart';
 import FunctionCallTrend from '@/components/FunctionCallTrend';
 import ErrorRateTrend from '@/components/ErrorRateTrend';
+import TaskQueue from '@/components/TaskQueue';
 
 export default function Home() {
   return (
@@ -15,6 +16,9 @@ export default function Home() {
         {/* AI Agent 業務指標 */}
         <BusinessMetrics />
       </div>
+      {/* 即時任務狀態 */}
+      <TaskQueue />
+
       {/* 7日用戶活躍度趨勢圖 */}
       <UserActivityTrend />
 
