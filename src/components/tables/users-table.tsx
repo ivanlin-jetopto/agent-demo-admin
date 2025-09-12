@@ -49,6 +49,7 @@ import {
   ChevronUp,
   ChevronDown,
   ChevronsUpDown,
+  MessageSquare,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -180,7 +181,7 @@ export default function UsersTable() {
       {
         accessorKey: 'lastActive',
         meta: {
-          className: 'w-[15%]',
+          className: 'w-[12%]',
         },
         header: ({ column }) => (
           <Button
@@ -207,9 +208,41 @@ export default function UsersTable() {
         enableSorting: true,
       },
       {
+        accessorKey: 'conversationCount',
+        meta: {
+          className: 'w-[12%]',
+        },
+        header: ({ column }) => (
+          <Button
+            variant="ghost"
+            className="-ml-4 h-auto p-2 hover:bg-transparent"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <MessageSquare className="h-4 w-4 text-muted-foreground mr-2" />
+            <span>對話數</span>
+            {column.getIsSorted() === 'asc' ? (
+              <ChevronUp className="ml-2 h-4 w-4" />
+            ) : column.getIsSorted() === 'desc' ? (
+              <ChevronDown className="ml-2 h-4 w-4" />
+            ) : (
+              <ChevronsUpDown className="ml-2 h-4 w-4 text-muted-foreground" />
+            )}
+          </Button>
+        ),
+        cell: ({ row }) => (
+          <div className="flex items-center justify-center gap-2">
+            <span className="text-sm font-medium">
+              {row.getValue('conversationCount')}
+            </span>
+            <span className="text-xs text-muted-foreground">次</span>
+          </div>
+        ),
+        enableSorting: true,
+      },
+      {
         accessorKey: 'status',
         meta: {
-          className: 'w-[15%]',
+          className: 'w-[11%]',
         },
         header: ({ column }) => (
           <Button
@@ -250,7 +283,7 @@ export default function UsersTable() {
       {
         id: 'actions',
         meta: {
-          className: 'w-[15%]',
+          className: 'w-[10%]',
         },
         header: () => <div className="text-center">操作</div>,
         cell: ({ row }) => {

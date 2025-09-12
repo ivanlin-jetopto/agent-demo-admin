@@ -4,4 +4,5 @@ export interface UserType {
   lastActive: string;
   status: 'active' | 'blocked';
   createdAt: string;
+  conversationCount: number;
 }

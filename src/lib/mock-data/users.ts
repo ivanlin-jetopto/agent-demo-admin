@@ -7,6 +7,7 @@ export const users: UserType[] = [
     lastActive: '2025-03-05',
     status: 'active',
     createdAt: '2025-01-15T08:30:00Z',
+    conversationCount: 1,
   },
   {
     id: 'user-002',
@@ -14,6 +15,7 @@ export const users: UserType[] = [
     lastActive: '2025-03-10',
     status: 'active',
     createdAt: '2025-02-20T14:45:00Z',
+    conversationCount: 1,
   },
   {
     id: 'user-003',
@@ -21,6 +23,7 @@ export const users: UserType[] = [
     lastActive: '2025-02-28',
     status: 'blocked',
     createdAt: '2025-02-05T10:15:00Z',
+    conversationCount: 1,
   },
   {
     id: 'user-004',
@@ -28,6 +31,7 @@ export const users: UserType[] = [
     lastActive: '2025-03-12',
     status: 'active',
     createdAt: '2025-02-10T09:00:00Z',
+    conversationCount: 1,
   },
   {
     id: 'user-005',
@@ -35,6 +39,7 @@ export const users: UserType[] = [
     lastActive: '2025-03-08',
     status: 'active',
     createdAt: '2025-02-22T16:30:00Z',
+    conversationCount: 2,
   },
   {
     id: 'user-006',
@@ -42,6 +47,7 @@ export const users: UserType[] = [
     lastActive: '2025-03-15',
     status: 'active',
     createdAt: '2025-01-01T08:00:00Z',
+    conversationCount: 1,
   },
   {
     id: 'user-007',
@@ -49,6 +55,7 @@ export const users: UserType[] = [
     lastActive: '2025-03-01',
     status: 'blocked',
     createdAt: '2025-02-15T11:20:00Z',
+    conversationCount: 2,
   },
   {
     id: 'user-008',
@@ -56,5 +63,6 @@ export const users: UserType[] = [
     lastActive: '2025-03-14',
     status: 'active',
     createdAt: '2025-01-10T12:00:00Z',
+    conversationCount: 1,
   },
 ];
