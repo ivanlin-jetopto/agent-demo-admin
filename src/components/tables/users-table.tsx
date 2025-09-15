@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -79,6 +80,7 @@ declare module '@tanstack/react-table' {
 }
 
 export default function UsersTable() {
+  const router = useRouter();
   const [data] = useState<UserType[]>(users);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -102,7 +104,7 @@ export default function UsersTable() {
   };
 
   const handleView = (id: string) => {
-    console.log('Viewing user:', id);
+    router.push(`/users/${id}`);
   };
 
   const formatDate = (dateString: string) => {

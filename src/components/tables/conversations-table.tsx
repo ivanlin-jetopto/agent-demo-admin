@@ -57,14 +57,25 @@ declare module '@tanstack/react-table' {
 }
 
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-export default function ConversationsTable() {
+interface ConversationsTableProps {
+  initialUserId?: string | null;
+}
+
+export default function ConversationsTable({ initialUserId }: ConversationsTableProps) {
   const router = useRouter();
   const [data] = useState<ConversationType[]>(mockConversationList);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
+
+  useEffect(() => {
+    if (initialUserId) {
+      setGlobalFilter(initialUserId);
+    }
+  }, [initialUserId]);
 
   const handleView = (sessionId: string) => {
     router.push(`/conversations/${sessionId}`);
@@ -311,6 +322,10 @@ export default function ConversationsTable() {
             onClick={() => {
               setGlobalFilter('');
               setDateRange(undefined);
+              // Clear URL params if filtering by user
+              if (initialUserId) {
+                router.push('/conversations');
+              }
             }}
           >
             清除篩選
@@ -318,6 +333,11 @@ export default function ConversationsTable() {
         </div>
 
         <div className="text-sm text-muted-foreground">
+          {initialUserId && (
+            <span className="mr-2">
+              篩選用戶: <span className="font-medium">{initialUserId}</span> |
+            </span>
+          )}
           總共 {table.getFilteredRowModel().rows.length} 個對話
         </div>
       </div>

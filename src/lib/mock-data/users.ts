@@ -8,6 +8,9 @@ export const users: UserType[] = [
     status: 'active',
     createdAt: '2025-01-15T08:30:00Z',
     conversationCount: 1,
+    displayName: '使用者一',
+    averageUsageFrequency: '每週 3 次',
+    preferredUsageTime: '09:00 - 12:00',
   },
   {
     id: 'user-002',
@@ -16,6 +19,9 @@ export const users: UserType[] = [
     status: 'active',
     createdAt: '2025-02-20T14:45:00Z',
     conversationCount: 1,
+    displayName: '使用者二',
+    averageUsageFrequency: '每天 2 次',
+    preferredUsageTime: '14:00 - 18:00',
   },
   {
     id: 'user-003',
@@ -24,6 +30,9 @@ export const users: UserType[] = [
     status: 'blocked',
     createdAt: '2025-02-05T10:15:00Z',
     conversationCount: 1,
+    displayName: '使用者三',
+    averageUsageFrequency: '每月 5 次',
+    preferredUsageTime: '20:00 - 22:00',
   },
   {
     id: 'user-004',
@@ -32,6 +41,9 @@ export const users: UserType[] = [
     status: 'active',
     createdAt: '2025-02-10T09:00:00Z',
     conversationCount: 1,
+    displayName: 'John Doe',
+    averageUsageFrequency: '每週 4 次',
+    preferredUsageTime: '10:00 - 12:00',
   },
   {
     id: 'user-005',
@@ -40,6 +52,9 @@ export const users: UserType[] = [
     status: 'active',
     createdAt: '2025-02-22T16:30:00Z',
     conversationCount: 2,
+    displayName: 'Jane Smith',
+    averageUsageFrequency: '每天 1 次',
+    preferredUsageTime: '16:00 - 19:00',
   },
   {
     id: 'user-006',
@@ -48,6 +63,9 @@ export const users: UserType[] = [
     status: 'active',
     createdAt: '2025-01-01T08:00:00Z',
     conversationCount: 1,
+    displayName: '系統管理員',
+    averageUsageFrequency: '每天 5 次',
+    preferredUsageTime: '08:00 - 18:00',
   },
   {
     id: 'user-007',
@@ -56,6 +74,9 @@ export const users: UserType[] = [
     status: 'blocked',
     createdAt: '2025-02-15T11:20:00Z',
     conversationCount: 2,
+    displayName: '測試用戶',
+    averageUsageFrequency: '每週 1 次',
+    preferredUsageTime: '11:00 - 14:00',
   },
   {
     id: 'user-008',
@@ -64,5 +85,8 @@ export const users: UserType[] = [
     status: 'active',
     createdAt: '2025-01-10T12:00:00Z',
     conversationCount: 1,
+    displayName: '客服支援',
+    averageUsageFrequency: '每天 10 次',
+    preferredUsageTime: '09:00 - 17:00',
   },
 ];
