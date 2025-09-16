@@ -7,7 +7,7 @@ import ConversationsTable from '@/components/tables/conversations-table';
 function ConversationsContent() {
   const searchParams = useSearchParams();
   const userId = searchParams.get('userId');
-  
+
   return <ConversationsTable initialUserId={userId} />;
 }
 
