@@ -11,7 +11,7 @@ export default function Home() {
     <main className="max-w-7xl mx-auto px-4 my-4 flex flex-col gap-4">
       <div className="flex flex-row gap-4 justify-around">
         {/* 用戶活躍度 */}
-        <UserActivity />
+        {/* <UserActivity /> */}
 
         {/* AI Agent 業務指標 */}
         <BusinessMetrics />
@@ -20,7 +20,7 @@ export default function Home() {
       <TaskQueue />
 
       {/* 7日用戶活躍度趨勢圖 */}
-      <UserActivityTrend />
+      {/* <UserActivityTrend /> */}
 
       {/* 24小時對話量分布圖 */}
       <ConversationVolumeChart />
