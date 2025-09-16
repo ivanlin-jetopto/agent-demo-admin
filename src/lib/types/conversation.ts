@@ -12,4 +12,6 @@ export interface ConversationType {
   userId: string;
   timestamp: string;
   tasks?: string[];
+  aiModel?: string;
+  tokenCount?: number;
 }

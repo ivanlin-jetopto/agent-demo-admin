@@ -41,22 +41,29 @@ export default function UserDetailPage() {
   const [isBlocking, setIsBlocking] = useState(false);
   const [isRemarkDialogOpen, setIsRemarkDialogOpen] = useState(false);
   const [currentRemark, setCurrentRemark] = useState('');
-  const [userRemarks, setUserRemarks] = useState<{ text: string; timestamp: Date }[]>([]);
+  const [userRemarks, setUserRemarks] = useState<
+    { text: string; timestamp: Date }[]
+  >([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     const foundUser = users.find(u => u.id === id);
     setUser(foundUser || null);
-    
+
     // Load remarks from localStorage
     const storedRemarks = localStorage.getItem(`userRemarks_${id}`);
     if (storedRemarks) {
-      const parsedRemarks = JSON.parse(storedRemarks) as { text: string; timestamp: string }[];
+      const parsedRemarks = JSON.parse(storedRemarks) as {
+        text: string;
+        timestamp: string;
+      }[];
       // Convert timestamp strings back to Date objects
-      setUserRemarks(parsedRemarks.map((r) => ({
-        text: r.text,
-        timestamp: new Date(r.timestamp)
-      })));
+      setUserRemarks(
+        parsedRemarks.map(r => ({
+          text: r.text,
+          timestamp: new Date(r.timestamp),
+        }))
+      );
     }
   }, [id]);
 
@@ -109,7 +116,10 @@ export default function UserDetailPage() {
 
   const handleSaveRemark = () => {
     if (currentRemark.trim()) {
-      setUserRemarks([...userRemarks, { text: currentRemark, timestamp: new Date() }]);
+      setUserRemarks([
+        ...userRemarks,
+        { text: currentRemark, timestamp: new Date() },
+      ]);
       setCurrentRemark('');
       setIsRemarkDialogOpen(false);
     }
@@ -296,18 +306,18 @@ export default function UserDetailPage() {
                 <Button
                   onClick={handleBlockToggle}
                   disabled={isBlocking}
-                  variant={user.status === 'blocked' ? 'default' : 'destructive'}
+                  variant={
+                    user.status === 'blocked' ? 'default' : 'destructive'
+                  }
                   className="w-full"
                 >
-                  {isBlocking ? (
-                    '處理中...'
-                  ) : user.status === 'blocked' ? (
-                    '解封帳號'
-                  ) : (
-                    '封鎖帳號'
-                  )}
+                  {isBlocking
+                    ? '處理中...'
+                    : user.status === 'blocked'
+                      ? '解封帳號'
+                      : '封鎖帳號'}
                 </Button>
-                
+
                 <Button
                   onClick={handleAddNote}
                   variant="outline"
@@ -316,7 +326,7 @@ export default function UserDetailPage() {
                   <FileText className="mr-2 h-4 w-4" />
                   新增備註標記
                 </Button>
-                
+
                 <Button
                   onClick={handleViewConversations}
                   variant="outline"
@@ -351,7 +361,9 @@ export default function UserDetailPage() {
                     <div key={index} className="p-3 bg-muted/50 rounded-lg">
                       <div className="flex justify-between items-start mb-2">
                         <span className="text-xs text-muted-foreground">
-                          {format(remark.timestamp, 'yyyy年MM月dd日 HH:mm', { locale: zhTW })}
+                          {format(remark.timestamp, 'yyyy年MM月dd日 HH:mm', {
+                            locale: zhTW,
+                          })}
                         </span>
                         <Button
                           variant="ghost"
@@ -362,7 +374,9 @@ export default function UserDetailPage() {
                           <Edit className="h-3 w-3" />
                         </Button>
                       </div>
-                      <p className="text-sm whitespace-pre-wrap">{remark.text}</p>
+                      <p className="text-sm whitespace-pre-wrap">
+                        {remark.text}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -387,14 +401,17 @@ export default function UserDetailPage() {
               <Textarea
                 id="remark"
                 value={currentRemark}
-                onChange={(e) => setCurrentRemark(e.target.value)}
+                onChange={e => setCurrentRemark(e.target.value)}
                 placeholder="輸入備註內容..."
                 className="min-h-[120px]"
               />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsRemarkDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsRemarkDialogOpen(false)}
+            >
               取消
             </Button>
             <Button onClick={handleSaveRemark} disabled={!currentRemark.trim()}>

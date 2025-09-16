@@ -35,6 +35,8 @@ import {
   ChevronsRight,
   FileText,
   ExternalLink,
+  Bot,
+  Hash,
 } from 'lucide-react';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import {
@@ -63,7 +65,9 @@ interface ConversationsTableProps {
   initialUserId?: string | null;
 }
 
-export default function ConversationsTable({ initialUserId }: ConversationsTableProps) {
+export default function ConversationsTable({
+  initialUserId,
+}: ConversationsTableProps) {
   const router = useRouter();
   const [data] = useState<ConversationType[]>(mockConversationList);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -126,7 +130,7 @@ export default function ConversationsTable({ initialUserId }: ConversationsTable
       {
         accessorKey: 'timestamp',
         meta: {
-          className: 'w-1/6',
+          className: 'w-1/8',
         },
         header: () => (
           <div className="flex items-center gap-2">
@@ -141,9 +145,45 @@ export default function ConversationsTable({ initialUserId }: ConversationsTable
         ),
       },
       {
+        accessorKey: 'aiModel',
+        meta: {
+          className: 'w-1/8',
+        },
+        header: () => (
+          <div className="flex items-center gap-2">
+            <Bot className="h-4 w-4 text-muted-foreground" />
+            <span>AI模型</span>
+          </div>
+        ),
+        cell: ({ row }) => {
+          const model = row.getValue('aiModel') as string | undefined;
+          return <span className="text-sm font-medium">{model || '-'}</span>;
+        },
+      },
+      {
+        accessorKey: 'tokenCount',
+        meta: {
+          className: 'w-1/8',
+        },
+        header: () => (
+          <div className="flex items-center gap-2">
+            <Hash className="h-4 w-4 text-muted-foreground" />
+            <span>Token數</span>
+          </div>
+        ),
+        cell: ({ row }) => {
+          const count = row.getValue('tokenCount') as number | undefined;
+          return (
+            <span className="text-sm text-muted-foreground">
+              {count ? count.toLocaleString() : '-'}
+            </span>
+          );
+        },
+      },
+      {
         accessorKey: 'tasks',
         meta: {
-          className: 'w-2/6',
+          className: 'w-1/4',
         },
         header: () => (
           <div className="flex items-center gap-2">
@@ -189,7 +229,7 @@ export default function ConversationsTable({ initialUserId }: ConversationsTable
       {
         id: 'actions',
         meta: {
-          className: 'w-1/6',
+          className: 'w-1/8',
         },
         header: () => <div className="text-center">操作</div>,
         cell: ({ row }) => {
@@ -248,10 +288,12 @@ export default function ConversationsTable({ initialUserId }: ConversationsTable
       const searchValue = filterValue.toLowerCase();
       const sessionId = row.getValue('sessionId') as string;
       const userId = row.getValue('userId') as string;
+      const aiModel = (row.getValue('aiModel') as string) || '';
 
       return (
         sessionId.toLowerCase().includes(searchValue) ||
-        userId.toLowerCase().includes(searchValue)
+        userId.toLowerCase().includes(searchValue) ||
+        aiModel.toLowerCase().includes(searchValue)
       );
     },
     state: {
